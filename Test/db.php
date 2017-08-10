@@ -1,5 +1,7 @@
 <?php
 use Itxiao6\Database\Capsule\Manager as DB;
+# 加载自动加载规则
+include('../vendor/autoload.php');
 # 连接数据库
 $database = new DB;
 # 载入数据库配置

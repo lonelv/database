@@ -1,6 +1,8 @@
 <?php
 use Itxiao6\Database\Eloquent\Model;
 use Itxiao6\Database\Capsule\Manager as DB;
+# 加载自动加载规则
+include('../vendor/autoload.php');
 class User extends Model {
     /**
      * @param String 表名(可为空)
