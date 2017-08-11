@@ -26,35 +26,35 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         Concerns\GuardsAttributes;
 
     /**
-     * The connection name for the model.
+     * 模型的连接名称。
      *
      * @var string
      */
     protected $connection;
 
     /**
-     * The table associated with the model.
+     * 与模型相关联的表。
      *
      * @var string
      */
     protected $table;
 
     /**
-     * The primary key for the model.
+     * 模型的主键。
      *
      * @var string
      */
     protected $primaryKey = 'id';
 
     /**
-     * The "type" of the auto-incrementing ID.
+     * 自动递增ID的“类型”。
      *
      * @var string
      */
     protected $keyType = 'int';
 
     /**
-     * Indicates if the IDs are auto-incrementing.
+     * 指示ID是否自动递增。
      *
      * @var bool
      */
@@ -68,77 +68,77 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     protected $with = [];
 
     /**
-     * The relationship counts that should be eager loaded on every query.
+     * 关系计数应该在每个查询上加载。
      *
      * @var array
      */
     protected $withCount = [];
 
     /**
-     * The number of models to return for pagination.
+     * 分页数返回的模型。
      *
      * @var int
      */
     protected $perPage = 15;
 
     /**
-     * Indicates if the model exists.
+     * 指示模型是否存在。
      *
      * @var bool
      */
     public $exists = false;
 
     /**
-     * Indicates if the model was inserted during the current request lifecycle.
+     * 指示模型是否在当前请求生命周期内插入。
      *
      * @var bool
      */
     public $wasRecentlyCreated = false;
 
     /**
-     * The connection resolver instance.
+     * 连接解析器实例。
      *
      * @var \Itxiao6\Database\ConnectionResolverInterface
      */
     protected static $resolver;
 
     /**
-     * The event dispatcher instance.
+     * 事件调度器实例。
      *
      * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected static $dispatcher;
 
     /**
-     * The array of booted models.
+     * 引导模型的阵列。
      *
      * @var array
      */
     protected static $booted = [];
 
     /**
-     * The array of global scopes on the model.
+     * 模型上的全局范围阵列。
      *
      * @var array
      */
     protected static $globalScopes = [];
 
     /**
-     * The name of the "created at" column.
+     * 数据创建时间 列名
      *
      * @var string
      */
     const CREATED_AT = 'created_at';
 
     /**
-     * The name of the "updated at" column.
+     * 数据最后更新时间 列名
      *
      * @var string
      */
     const UPDATED_AT = 'updated_at';
 
     /**
-     * Create a new Eloquent model instance.
+     * 创建一个新的 Eloquent 模型实例。
      *
      * @param  array  $attributes
      * @return void
@@ -153,7 +153,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Check if the model needs to be booted and if so, do it.
+     * 检查模型是否需要启动，如果是，请执行此操作。
      *
      * @return void
      */
@@ -171,7 +171,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * The "booting" method of the model.
+     * 模型的“启动”方法。
      *
      * @return void
      */
@@ -181,7 +181,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Boot all of the bootable traits on the model.
+     * 引导模型上的所有可引导特征。
      *
      * @return void
      */
@@ -197,7 +197,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Clear the list of booted models so they will be re-booted.
+     * 清除引导模型的列表，以便它们重新启动。
      *
      * @return void
      */
@@ -209,7 +209,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Fill the model with an array of attributes.
+     * 使用一系列属性填充模型。
      *
      * @param  array  $attributes
      * @return $this
@@ -238,6 +238,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Fill the model with an array of attributes. Force mass assignment.
+     * 使用一系列属性填充模型。 强制质量分配
      *
      * @param  array  $attributes
      * @return $this
@@ -251,6 +252,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Remove the table name from a given key.
+     * 从给定的键中删除表名。
      *
      * @param  string  $key
      * @return string
@@ -261,7 +263,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Create a new instance of the given model.
+     * 创建给定模型的新实例。
      *
      * @param  array  $attributes
      * @param  bool  $exists
@@ -272,6 +274,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         // This method just provides a convenient way for us to generate fresh model
         // instances of this current model. It is particularly useful during the
         // hydration of new objects via the Eloquent query builder instances.
+        //这个方法只是提供一种方便的方法来生成新的模型
+        //这个当前模型的实例。 在此期间特别有用
+        //通过Eloquent查询构建器实例对新对象进行水化。
         $model = new static((array) $attributes);
 
         $model->exists = $exists;
@@ -284,7 +289,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Create a new model instance that is existing.
+     * 创建一个现有的新模型实例。
      *
      * @param  array  $attributes
      * @param  string|null  $connection
@@ -302,7 +307,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Begin querying the model on a given connection.
+     * 在给定的连接上开始查询模型。
      *
      * @param  string|null  $connection
      * @return \Itxiao6\Database\Eloquent\Builder
@@ -312,6 +317,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         // First we will just create a fresh instance of this model, and then we can
         // set the connection on the model so that it is be used for the queries
         // we execute, as well as being set on each relationship we retrieve.
+        //首先，我们将创建一个这个模型的新实例，然后我们可以
+        //设置模型上的连接，以便它被用于查询
+        //我们执行，以及在我们检索的每个关系上设置。
         $instance = new static;
 
         $instance->setConnection($connection);
@@ -321,6 +329,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Begin querying the model on the write connection.
+     * 开始在写连接上查询模型。
      *
      * @return \Itxiao6\Database\Query\Builder
      */
@@ -333,6 +342,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Get all of the models from the database.
+     * 从数据库获取所有的模型。
      *
      * @param  array|mixed  $columns
      * @return \Itxiao6\Database\Eloquent\Collection|static[]
@@ -346,6 +356,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Begin querying a model with eager loading.
+     * 装载 一个模型 开始 查询
      *
      * @param  array|string  $relations
      * @return \Itxiao6\Database\Eloquent\Builder|static
@@ -359,6 +370,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Eager load relations on the model.
+     * Eager 在 模型 加载 关系.
      *
      * @param  array|string  $relations
      * @return $this
@@ -376,6 +388,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Increment a column's value by a given amount.
+     * 列的值递增
      *
      * @param  string  $column
      * @param  int  $amount
@@ -389,6 +402,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Decrement a column's value by a given amount.
+     * 列的值递减
      *
      * @param  string  $column
      * @param  int  $amount
@@ -402,7 +416,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Run the increment or decrement method on the model.
-     *
+     * 在模型上 运行 递减
      * @param  string  $column
      * @param  int  $amount
      * @param  array  $extra
@@ -425,7 +439,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Increment the underlying attribute value and sync with original.
+     * 增加底层属性值并与原始文件进行同步。
      *
      * @param  string  $column
      * @param  int  $amount
@@ -443,7 +457,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Update the model in the database.
+     * 更新数据库中的模型。
      *
      * @param  array  $attributes
      * @param  array  $options
@@ -459,7 +473,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Save the model and all of its relationships.
+     * 保存模型及其所有关系。
      *
      * @return bool
      */
@@ -472,6 +486,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         // To sync all of the relationships to the database, we will simply spin through
         // the relationships and save each model via this "push" method, which allows
         // us to recurse into all of these nested relations for the model instance.
+        //要将所有关系同步到数据库，我们将简单地转过来
+        //关系，并通过这种“推”方法保存每个模型，这允许
+        //我们递归到模型实例的所有这些嵌套关系中。
         foreach ($this->relations as $models) {
             $models = $models instanceof Collection
                         ? $models->all() : [$models];
@@ -487,7 +504,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Save the model to the database.
+     * 将模型保存到数据库。
      *
      * @param  array  $options
      * @return bool
@@ -499,6 +516,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         // If the "saving" event returns false we'll bail out of the save and return
         // false, indicating that the save failed. This provides a chance for any
         // listeners to cancel save operations if validations fail or whatever.
+        //如果“save”事件返回false，我们将保存并返回
+        // false，表示保存失败。 这提供了任何机会
+        //监听器取消保存操作，如果验证失败或任何。
         if ($this->fireModelEvent('saving') === false) {
             return false;
         }
@@ -506,6 +526,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         // If the model already exists in the database we can just update our record
         // that is already in this database using the current IDs in this "where"
         // clause to only update this model. Otherwise, we'll just insert them.
+        //如果模型已经存在于数据库中，我们可以更新我们的记录
+        //这个数据库中已经存在这个“where”中的当前ID
+        //子句仅更新此模型。 否则，我们只是插入它们。
         if ($this->exists) {
             $saved = $this->isDirty() ?
                         $this->performUpdate($query) : true;
@@ -514,6 +537,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         // If the model is brand new, we'll insert it into our database and set the
         // ID attribute on the model to the value of the newly inserted row's ID
         // which is typically an auto-increment value managed by the database.
+        //如果模型是全新的，我们将其插入到我们的数据库中并设置
+        //模型上的ID属性为新插入的行的ID的值
+        //通常是由数据库管理的自动增量值。
         else {
             $saved = $this->performInsert($query);
         }
@@ -521,6 +547,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         // If the model is successfully saved, we need to do a few more things once
         // that is done. We will call the "saved" method here to run any actions
         // we need to happen after a model gets successfully saved right here.
+        //如果模型成功保存，我们需要再做一些更多的事情
+        //完成了 我们将在这里调用“保存”方法来运行任何操作
+        //我们需要在模型在这里成功保存之后发生。
         if ($saved) {
             $this->finishSave($options);
         }
@@ -529,7 +558,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Save the model to the database using transaction.
+     * 使用事务将模型保存到数据库。
      *
      * @param  array  $options
      * @return bool
@@ -545,6 +574,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Perform any actions that are necessary after the model is saved.
+     * 在保存模型后执行必要的任何操作。
      *
      * @param  array  $options
      * @return void
@@ -562,6 +592,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     /**
      * Perform a model update operation.
+     * 执行模型更新操作。
      *
      * @param  \Itxiao6\Database\Eloquent\Builder  $query
      * @return bool
@@ -597,7 +628,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Set the keys for a save update query.
+     * 设置保存更新查询的键。
      *
      * @param  \Itxiao6\Database\Eloquent\Builder  $query
      * @return \Itxiao6\Database\Eloquent\Builder
@@ -610,7 +641,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Get the primary key value for a save query.
+     * 获取保存查询的主键值。
      *
      * @return mixed
      */
@@ -622,7 +653,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Perform a model insert operation.
+     * 执行模型插入操作。
      *
      * @param  \Itxiao6\Database\Eloquent\Builder  $query
      * @return bool
@@ -673,7 +704,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Insert the given attributes and set the ID on the model.
+     * 插入给定的属性并设置模型上的ID。
      *
      * @param  \Itxiao6\Database\Eloquent\Builder  $query
      * @param  array  $attributes
@@ -687,7 +718,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Destroy the models for the given IDs.
+     * 销毁给定ID的模型。
      *
      * @param  array|int  $ids
      * @return int
@@ -716,7 +747,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Delete the model from the database.
+     * 从数据库中删除模型。
      *
      * @return bool|null
      *
@@ -757,9 +788,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Force a hard delete on a soft deleted model.
+     * 在软删除的模型上强制执行硬删除。
      *
-     * This method protects developers from running forceDelete when trait is missing.
+     * 当trait丢失时，此方法可以保护开发人员不要运行forceDelete。
      *
      * @return bool|null
      */
@@ -769,7 +800,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Perform the actual delete query on this model instance.
+     * 在此模型实例上执行实际的删除查询。
      *
      * @return void
      */
@@ -779,7 +810,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Begin querying the model.
+     * 开始查询模型。
      *
      * @return \Itxiao6\Database\Eloquent\Builder
      */
@@ -789,7 +820,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Get a new query builder for the model's table.
+     * 获取模型表的新查询构建器。
      *
      * @return \Itxiao6\Database\Eloquent\Builder
      */
@@ -805,7 +836,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Get a new query builder that doesn't have any global scopes.
+     * 获取一个没有任何全局范围的新查询构建器。
      *
      * @return \Itxiao6\Database\Eloquent\Builder|static
      */
@@ -822,7 +853,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Get a new query instance without a given scope.
+     * 获取一个没有给定范围的新查询实例。
      *
      * @param  \Itxiao6\Database\Eloquent\Scope|string  $scope
      * @return \Itxiao6\Database\Eloquent\Builder
@@ -835,7 +866,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Create a new Eloquent query builder for the model.
+     * 为该模型创建一个新的Eloquent查询构建器。
      *
      * @param  \Itxiao6\Database\Query\Builder  $query
      * @return \Itxiao6\Database\Eloquent\Builder|static
@@ -846,7 +877,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Get a new query builder instance for the connection.
+     * 为连接获取新的查询构建器实例。
      *
      * @return \Itxiao6\Database\Query\Builder
      */
@@ -860,7 +891,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Create a new Eloquent Collection instance.
+     * 创建一个新的雄辩集合实例。
      *
      * @param  array  $models
      * @return \Itxiao6\Database\Eloquent\Collection
@@ -871,7 +902,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Create a new pivot model instance.
+     * 创建一个新的数据库模型实例。
      *
      * @param  \Itxiao6\Database\Eloquent\Model  $parent
      * @param  array  $attributes
@@ -887,7 +918,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Convert the model instance to an array.
+     * 将模型实例转换为数组。
      *
      * @return array
      */
@@ -897,7 +928,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Convert the model instance to JSON.
+     * 将模型实例转换为JSON。
      *
      * @param  int  $options
      * @return string
@@ -916,7 +947,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Convert the object into something JSON serializable.
+     * 将对象转换成JSON可序列化。
      *
      * @return array
      */
@@ -926,7 +957,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Reload a fresh model instance from the database.
+     * 从数据库重新加载一个新的模型实例。
      *
      * @param  array|string  $with
      * @return static|null
@@ -944,7 +975,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Reload the current model instance with fresh attributes from the database.
+     * 从数据库中重新加载具有新属性的当前模型实例。
      *
      * @return void
      */
@@ -960,7 +991,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Clone the model into a new, non-existing instance.
+     * 将模型克隆到一个新的，不存在的实例中。
      *
      * @param  array|null  $except
      * @return \Itxiao6\Database\Eloquent\Model

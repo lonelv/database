@@ -15,7 +15,7 @@ class Manager
     use CapsuleManagerTrait;
 
     /**
-     * The database manager instance.
+     * 数据库管理器实例。
      *
      * @var \Itxiao6\Database\DatabaseManager
      */
@@ -40,7 +40,7 @@ class Manager
     }
 
     /**
-     * Setup the default database configuration options.
+     * 设置默认数据库配置选项。
      *
      * @return void
      */
@@ -52,7 +52,7 @@ class Manager
     }
 
     /**
-     * Build the database manager instance.
+     * 建立数据库管理器实例。
      *
      * @return void
      */
@@ -64,7 +64,7 @@ class Manager
     }
 
     /**
-     * Get a connection instance from the global manager.
+     * 从全局管理器获取连接实例。
      *
      * @param  string  $connection
      * @return \Itxiao6\Database\Connection
@@ -75,7 +75,7 @@ class Manager
     }
 
     /**
-     * Get a fluent query builder instance.
+     * 获得一个查询生成器实例。
      *
      * @param  string  $table
      * @param  string  $connection
@@ -87,7 +87,7 @@ class Manager
     }
 
     /**
-     * Get a schema builder instance.
+     * 获取模式生成器实例。
      *
      * @param  string  $connection
      * @return \Itxiao6\Database\Schema\Builder
@@ -98,7 +98,7 @@ class Manager
     }
 
     /**
-     * Get a registered connection instance.
+     * 获取已注册的连接实例。
      *
      * @param  string  $name
      * @return \Itxiao6\Database\Connection
@@ -125,7 +125,7 @@ class Manager
     }
 
     /**
-     * Bootstrap Eloquent so it is ready for usage.
+     * 启动数据库组件。
      *
      * @return void
      */
@@ -142,7 +142,7 @@ class Manager
     }
 
     /**
-     * Set the fetch mode for the database connections.
+     * 设置数据库连接的提取模式。
      *
      * @param  int  $fetchMode
      * @return $this
@@ -155,7 +155,7 @@ class Manager
     }
 
     /**
-     * Get the database manager instance.
+     * 获取数据库管理器实例。
      *
      * @return \Itxiao6\Database\DatabaseManager
      */
@@ -165,7 +165,7 @@ class Manager
     }
 
     /**
-     * Get the current event dispatcher instance.
+     * 获取现在的事件调度实例。
      *
      * @return \Illuminate\Contracts\Events\Dispatcher|null
      */
@@ -177,7 +177,7 @@ class Manager
     }
 
     /**
-     * Set the event dispatcher instance to be used by connections.
+     * 设置要由连接使用的事件调度器实例。
      *
      * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
      * @return void
@@ -188,7 +188,7 @@ class Manager
     }
 
     /**
-     * Dynamically pass methods to the default connection.
+     * 动态传递方法到默认连接。
      *
      * @param  string  $method
      * @param  array   $parameters
