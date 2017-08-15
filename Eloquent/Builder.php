@@ -10,6 +10,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Contracts\Support\Arrayable;
 use Itxiao6\Database\Concerns\BuildsQueries;
 use Itxiao6\Database\Eloquent\Relations\Relation;
+use Itxiao6\Database\Page;
 use Itxiao6\Database\Query\Builder as QueryBuilder;
 
 /**
@@ -670,9 +671,10 @@ class Builder
     }
 
     /**
-     * Paginate the given query.
+     * 分页查询
      *
      * @param  int  $perPage
+     * @param  array  $template
      * @param  array  $columns
      * @param  string  $pageName
      * @param  int|null  $page
@@ -680,20 +682,37 @@ class Builder
      *
      * @throws \InvalidArgumentException
      */
-    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    public function paginate($perPage = null,$template = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
-        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        # 判断是否传入了自定义分页样式
+        if($template != null){
+            Page::set_template($template);
+        }
+        # 判断是否传入了分页
+        if(isset($page) && $page > 0){
+            # 如果存在则使用参数
+        }else{
+            # 如果没有传则使用GET的
+            $page = $_GET['page'];
+        }
 
-        $perPage = $perPage ?: $this->model->getPerPage();
+        # 返回分页过的模型
 
-        $results = ($total = $this->toBase()->getCountForPagination())
-                                    ? $this->forPage($page, $perPage)->get($columns)
-                                    : $this->model->newCollection();
+        return ['data' => Page::page($perPage,$this -> model,$page) -> get(),'link'=>Page::links()];
 
-        return $this->paginator($results, $total, $perPage, $page, [
-            'path' => Paginator::resolveCurrentPath(),
-            'pageName' => $pageName,
-        ]);
+        # 分页修改
+//        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+//
+//        $perPage = $perPage ?: $this->model->getPerPage();
+//
+//        $results = ($total = $this->toBase()->getCountForPagination())
+//                                    ? $this->forPage($page, $perPage)->get($columns)
+//                                    : $this->model->newCollection();
+//
+//        return $this->paginator($results, $total, $perPage, $page, [
+//            'path' => Paginator::resolveCurrentPath(),
+//            'pageName' => $pageName,
+//        ]);
     }
 
     /**

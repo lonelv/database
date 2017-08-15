@@ -16,6 +16,7 @@ use Itxiao6\Database\ConnectionInterface;
 use Itxiao6\Database\Concerns\BuildsQueries;
 use Itxiao6\Database\Query\Grammars\Grammar;
 use Itxiao6\Database\Query\Processors\Processor;
+use Itxiao6\Database\Page;
 
 class Builder
 {
@@ -1715,23 +1716,40 @@ class Builder
      * Paginate the given query into a simple paginator.
      *
      * @param  int  $perPage
+     * @param  array  $template
      * @param  array  $columns
      * @param  string  $pageName
      * @param  int|null  $page
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null)
+    public function paginate($perPage = 15,$template = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
-        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        # 判断是否传入了自定义分页样式
+        if($template != null){
+            Page::set_template($template);
+        }
 
-        $total = $this->getCountForPagination($columns);
+        # 判断是否传入了分页
+        if(isset($page) && $page > 0){
+            # 如果存在则使用参数
+        }else{
+            # 如果没有传则使用GET的
+            $page = $_GET['page'];
+        }
 
-        $results = $total ? $this->forPage($page, $perPage)->get($columns) : collect();
-
-        return $this->paginator($results, $total, $perPage, $page, [
-            'path' => Paginator::resolveCurrentPath(),
-            'pageName' => $pageName,
-        ]);
+        # 返回分页过的模型
+        return ['data' => Page::page($perPage,$this,$page) -> get(),'link'=>Page::links()];
+        # 分页修改
+//        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+//
+//        $total = $this->getCountForPagination($columns);
+//
+//        $results = $total ? $this->forPage($page, $perPage)->get($columns) : collect();
+//
+//        return $this->paginator($results, $total, $perPage, $page, [
+//            'path' => Paginator::resolveCurrentPath(),
+//            'pageName' => $pageName,
+//        ]);
     }
 
     /**
