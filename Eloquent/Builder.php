@@ -669,6 +669,16 @@ class Builder
             return $this->model->newFromBuilder([$column => $value])->{$column};
         });
     }
+    # 缓存数据
+    public function cache($time){
+        # 要执行的Sql
+        $sql = $this -> query ->toSql();
+        # 要绑定的参数
+        $bindings = $this -> query -> bindings;
+//        dd($sql);
+//        dd($this -> query -> connection -> bindValues('',$bindings));
+        return $this;
+    }
 
     /**
      * 分页查询
@@ -684,6 +694,8 @@ class Builder
      */
     public function paginate($perPage = null,$template = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
+        # 新分页
+
         # 判断是否传入了自定义分页样式
         if($template != null){
             Page::set_template($template);
@@ -697,10 +709,9 @@ class Builder
         }
 
         # 返回分页过的模型
+        return ['data' => Page::page($perPage,$this -> query,$page) -> get($columns),'link'=>Page::links()];
 
-        return ['data' => Page::page($perPage,$this -> model,$page) -> get(),'link'=>Page::links()];
-
-        # 分页修改
+        # 原
 //        $page = $page ?: Paginator::resolveCurrentPage($pageName);
 //
 //        $perPage = $perPage ?: $this->model->getPerPage();

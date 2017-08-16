@@ -1712,6 +1712,15 @@ class Builder
         );
     }
 
+    /**缓存函数
+     * @param int $time
+     * @return $this
+     */
+    public function cache($time = 0){
+        $this -> cache_time = 12;
+        return $this;
+    }
+
     /**
      * Paginate the given query into a simple paginator.
      *
