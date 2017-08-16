@@ -31,5 +31,5 @@ class User extends Model {
         parent::__construct();
     }
 }
-$user = User::where(['id'=>6]) -> cache(10) -> paginate(2);
-//dd($user);
+$user = User::where(['id'=>6]) -> paginate(2);
+dd($user);
