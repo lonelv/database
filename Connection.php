@@ -17,6 +17,7 @@ use Itxiao6\Database\Query\Processors\Processor;
 use Itxiao6\Database\Query\Builder as QueryBuilder;
 use Itxiao6\Database\Schema\Builder as SchemaBuilder;
 use Itxiao6\Database\Query\Grammars\Grammar as QueryGrammar;
+use Service\Cache;
 
 /**
  * 连接类
@@ -112,6 +113,11 @@ class Connection implements ConnectionInterface
      * @var int
      */
     protected $transactions = 0;
+    /**
+     * 数据缓存时间(默认为0则不缓存)
+     * @var int
+     */
+    public $cache_time = 0;
 
     /**
      * 所有的查询都运行在连接上。
@@ -334,7 +340,19 @@ class Connection implements ConnectionInterface
 
             $statement->execute();
 
-            return $statement->fetchAll();
+            # 判断是否使用了缓存
+            if($this -> cache_time == 0){
+                # 解析结果集
+                return $statement->fetchAll();
+            }else{
+                # 获取缓存key
+                $key = 'databases_'.substr(md5($query.serialize($bindings)),0,5);
+                # 返回缓存的数据
+                return Cache::remember($key,function() use ($statement){
+                    # 更新缓存
+                    return $statement->fetchAll();
+                },$this -> cache_time);
+            }
         });
     }
 

@@ -10,7 +10,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Contracts\Support\Arrayable;
 use Itxiao6\Database\Concerns\BuildsQueries;
 use Itxiao6\Database\Eloquent\Relations\Relation;
-use Itxiao6\Database\Page;
+use Service\Page;
 use Itxiao6\Database\Query\Builder as QueryBuilder;
 
 /**
@@ -669,14 +669,16 @@ class Builder
             return $this->model->newFromBuilder([$column => $value])->{$column};
         });
     }
-    # 缓存数据
-    public function cache($time){
-        # 要执行的Sql
-        $sql = $this -> query ->toSql();
-        # 要绑定的参数
-        $bindings = $this -> query -> bindings;
-//        dd($sql);
-//        dd($this -> query -> connection -> bindValues('',$bindings));
+
+    /**
+     * 缓存函数
+     * @param $time
+     * @return $this
+     */
+    public function remember($time){
+        # 设置缓存时间
+        $this -> query -> connection -> cache_time = $time;
+        # 返回自己
         return $this;
     }
 

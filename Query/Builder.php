@@ -16,7 +16,7 @@ use Itxiao6\Database\ConnectionInterface;
 use Itxiao6\Database\Concerns\BuildsQueries;
 use Itxiao6\Database\Query\Grammars\Grammar;
 use Itxiao6\Database\Query\Processors\Processor;
-use Itxiao6\Database\Page;
+use Service\Page;
 
 class Builder
 {
