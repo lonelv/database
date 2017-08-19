@@ -666,7 +666,7 @@ class Connection implements ConnectionInterface
         // the event that the developer needs them. We'll log time in milliseconds.
 
         $this->logQuery(
-            $query, $bindings, $this->getElapsedTime($start);
+            $query, $bindings, $this->getElapsedTime(111)
     );
 
         return $result;
