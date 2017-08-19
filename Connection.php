@@ -347,10 +347,7 @@ class Connection implements ConnectionInterface
 
                 # 解析结果集
                 $resurl = $statement->fetchAll();
-                # 记录sql
-                $this->logQuery(
-                    $query, $bindings, $this->getElapsedTime($start = microtime(true))
-                );
+                
                 # 返回结果
                 return $resurl;
             }else{
