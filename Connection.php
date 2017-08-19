@@ -333,22 +333,33 @@ class Connection implements ConnectionInterface
             //对于select语句，我们只需执行查询并返回一个数组
             //数据库结果集。 数组中的每个元素都将是单个元素
             //数据库表中的行，并且将是数组或对象。
-            $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
-                              ->prepare($query));
-
-            $this->bindValues($statement, $this->prepareBindings($bindings));
-
-            $statement->execute();
-
             # 判断是否使用了缓存
             if($this -> cache_time == 0){
+                $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
+                    ->prepare($query));
+
+                $this->bindValues($statement, $this->prepareBindings($bindings));
+
+                $statement->execute();
+                var_dump('使用缓存');
                 # 解析结果集
                 return $statement->fetchAll();
+                # 记录sql
+
             }else{
                 # 获取缓存key
                 $key = 'databases_'.substr(md5($query.serialize($bindings)),0,5);
+
                 # 返回缓存的数据
-                return Cache::remember($key,function() use ($statement){
+                return Cache::remember($key,function() use ($useReadPdo,$bindings,$query){
+                    var_dump('更新缓存');
+                    $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
+                        ->prepare($query));
+
+                    $this->bindValues($statement, $this->prepareBindings($bindings));
+
+                    $statement->execute();
+
                     # 更新缓存
                     return $statement->fetchAll();
                 },$this -> cache_time);
@@ -375,7 +386,7 @@ class Connection implements ConnectionInterface
             // mode and prepare the bindings for the query. Once that's done we will be
             // ready to execute the query against the database and return the cursor.
             $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
-                              ->prepare($query));
+                ->prepare($query));
 
             $this->bindValues(
                 $statement, $this->prepareBindings($bindings)
@@ -588,7 +599,7 @@ class Connection implements ConnectionInterface
      */
     public function bindValues($statement, $bindings)
     {
-            foreach ($bindings as $key => $value) {
+        foreach ($bindings as $key => $value) {
             $statement->bindValue(
                 is_string($key) ? $key : $key + 1, $value,
                 is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR
@@ -653,9 +664,10 @@ class Connection implements ConnectionInterface
         // Once we have run the query we will calculate the time that it took to run and
         // then log the query, bindings, and execution time so we will report them on
         // the event that the developer needs them. We'll log time in milliseconds.
+
         $this->logQuery(
-            $query, $bindings, $this->getElapsedTime($start)
-        );
+            $query, $bindings, $this->getElapsedTime($start);
+    );
 
         return $result;
     }
@@ -682,12 +694,12 @@ class Connection implements ConnectionInterface
             $result = $callback($query, $bindings);
         }
 
-        // If an exception occurs when attempting to run a query, we'll format the error
-        // message to include the bindings with SQL, which will make this exception a
-        // lot more helpful to the developer instead of just the database's errors.
-        //如果尝试运行查询时发生异常，我们将格式化错误
-        //将包含与SQL绑定的消息，这将导致此异常
-        //对开发人员而言更有帮助，而不仅仅是数据库的错误。
+            // If an exception occurs when attempting to run a query, we'll format the error
+            // message to include the bindings with SQL, which will make this exception a
+            // lot more helpful to the developer instead of just the database's errors.
+            //如果尝试运行查询时发生异常，我们将格式化错误
+            //将包含与SQL绑定的消息，这将导致此异常
+            //对开发人员而言更有帮助，而不仅仅是数据库的错误。
         catch (Exception $e) {
             throw new QueryException(
                 $query, $this->prepareBindings($bindings), $e
@@ -1243,6 +1255,6 @@ class Connection implements ConnectionInterface
     public static function getResolver($driver)
     {
         return isset(static::$resolvers[$driver]) ?
-                     static::$resolvers[$driver] : null;
+            static::$resolvers[$driver] : null;
     }
 }
