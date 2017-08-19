@@ -322,11 +322,11 @@ class Connection implements ConnectionInterface
      */
     public function select($query, $bindings = [], $useReadPdo = true)
     {
-        return $this->run($query, $bindings, function ($query, $bindings) use ($useReadPdo) {
+        return $this->run($query, $bindings, function ($query, $bindings) use ($useReadPdo,$query,$bindings) {
             if ($this->pretending()) {
                 return [];
             }
-
+            $start = microtime(true);
             // For select statements, we'll simply execute the query and return an array
             // of the database result set. Each element in the array will be a single
             // row from the database table, and will either be an array or objects.
@@ -335,31 +335,43 @@ class Connection implements ConnectionInterface
             //数据库表中的行，并且将是数组或对象。
             # 判断是否使用了缓存
             if($this -> cache_time == 0){
+
                 $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
                     ->prepare($query));
 
+                # 绑定参数
                 $this->bindValues($statement, $this->prepareBindings($bindings));
 
+                # 执行查询
                 $statement->execute();
-                var_dump('使用缓存');
-                # 解析结果集
-                return $statement->fetchAll();
-                # 记录sql
 
+                # 解析结果集
+                $resurl = $statement->fetchAll();
+                # 记录sql
+                $this->logQuery(
+                    $query, $bindings, $this->getElapsedTime($start = microtime(true))
+                );
+                # 返回结果
+                return $resurl;
             }else{
                 # 获取缓存key
                 $key = 'databases_'.substr(md5($query.serialize($bindings)),0,5);
 
                 # 返回缓存的数据
-                return Cache::remember($key,function() use ($useReadPdo,$bindings,$query){
-                    var_dump('更新缓存');
+                return Cache::remember($key,function() use ($useReadPdo,$bindings,$query,$start){
+
                     $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
                         ->prepare($query));
 
+                    # 绑定参数
                     $this->bindValues($statement, $this->prepareBindings($bindings));
 
+                    # 执行查询
                     $statement->execute();
-
+                    # 记录sql
+                    $this->logQuery(
+                        $query, $bindings, $this->getElapsedTime($start = microtime(true))
+                    );
                     # 更新缓存
                     return $statement->fetchAll();
                 },$this -> cache_time);
@@ -664,10 +676,13 @@ class Connection implements ConnectionInterface
         // Once we have run the query we will calculate the time that it took to run and
         // then log the query, bindings, and execution time so we will report them on
         // the event that the developer needs them. We'll log time in milliseconds.
+        # 判断是否开启了缓存
+        if($this -> cache_time != 0){
+            $this->logQuery(
+                $query, $bindings, $this->getElapsedTime($start)
+            );
+        }
 
-        $this->logQuery(
-            $query, $bindings, $this->getElapsedTime(111)
-    );
 
         return $result;
     }
