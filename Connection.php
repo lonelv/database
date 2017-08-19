@@ -677,7 +677,7 @@ class Connection implements ConnectionInterface
         // then log the query, bindings, and execution time so we will report them on
         // the event that the developer needs them. We'll log time in milliseconds.
         # 判断是否开启了缓存
-        if($this -> cache_time != 0){
+        if($this -> cache_time == 0){
             $this->logQuery(
                 $query, $bindings, $this->getElapsedTime($start)
             );
