@@ -1716,8 +1716,8 @@ class Builder
      * @param int $time
      * @return $this
      */
-    public function cache($time = 0){
-        $this -> cache_time = 12;
+    public function remember($time = 0){
+        $this -> connection -> cache_time = $time;
         return $this;
     }
 
