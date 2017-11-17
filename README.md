@@ -1,4 +1,4 @@
-## 基于Laravel 的 database 组件开发的一个通用的数据库ORM工具。并且注释汉化、缓存可灵活拓展
+## 基于Laravel 的 database 组件开发的一个通用的数据库ORM工具。并且注释汉化、缓存可灵活拓展、不依赖于Laravel组件
 它目前支持MySQL，SQL Server，Postgres和SQLite。
 ### 使用说明
 
