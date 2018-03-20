@@ -677,7 +677,7 @@ class Builder
      */
     public function remember($time){
         # 设置缓存时间
-        $this -> query -> remember(...func_num_args());
+        $this -> query -> connection -> cache_time = $time;
         # 返回自己
         return $this;
     }
