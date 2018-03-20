@@ -684,34 +684,17 @@ class Builder
 
     /**
      * 分页查询
-     *
-     * @param  int  $perPage
-     * @param  array  $template
-     * @param  array  $columns
-     * @param  string  $pageName
-     * @param  int|null  $page
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     *
-     * @throws \InvalidArgumentException
+     * @param null $perPage
+     * @param null $template
+     * @param array $columns
+     * @param string $pageName
+     * @param null|int $page
+     * @return mixed
      */
     public function paginate($perPage = null,$template = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         # 新分页
-
-        # 判断是否传入了自定义分页样式
-        if($template != null){
-            Page::set_template($template);
-        }
-        # 判断是否传入了分页
-        if(isset($page) && $page > 0){
-            # 如果存在则使用参数
-        }else{
-            # 如果没有传则使用GET的
-            $page = $_GET['page'];
-        }
-
-        # 返回分页过的模型
-        return ['data' => Page::page($perPage,$this -> query,$page) -> get($columns),'link'=>Page::links()];
+        return $this -> connection -> paginate_driver -> paginate($this -> query,$perPage,$columns, $pageName, $page);
 
         # 原
 //        $page = $page ?: Paginator::resolveCurrentPage($pageName);

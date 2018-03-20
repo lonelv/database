@@ -3,6 +3,8 @@
 namespace Itxiao6\Database\Query;
 
 use Closure;
+use Itxiao6\Database\CacheInterface;
+use Itxiao6\Database\PaginateInterface;
 use RuntimeException;
 use BadMethodCallException;
 use Illuminate\Support\Arr;
@@ -1712,7 +1714,8 @@ class Builder
         );
     }
 
-    /**缓存函数
+    /**
+     * 缓存
      * @param int $time
      * @return $this
      */
@@ -1722,32 +1725,38 @@ class Builder
     }
 
     /**
-     * Paginate the given query into a simple paginator.
-     *
-     * @param  int  $perPage
-     * @param  array  $template
-     * @param  array  $columns
-     * @param  string  $pageName
-     * @param  int|null  $page
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * 设置缓存驱动
+     * @param CacheInterface $object
+     * @return $this
      */
-    public function paginate($perPage = 15,$template = null, $columns = ['*'], $pageName = 'page', $page = null)
+    public function set_cache_driver(CacheInterface $object)
     {
-        # 判断是否传入了自定义分页样式
-        if($template != null){
-            Page::set_template($template);
-        }
+        $this -> connection -> cache_driver = $object;
+        return $this;
+    }
 
-        # 判断是否传入了分页
-        if(isset($page) && $page > 0){
-            # 如果存在则使用参数
-        }else{
-            # 如果没有传则使用GET的
-            $page = $_GET['page'];
-        }
+    /**
+     * 设置分页驱动
+     * @param PaginateInterface $object
+     * @return $this
+     */
+    public function set_paginate_driver(PaginateInterface $object)
+    {
+        $this -> connection -> paginate_driver = $object;
+        return $this;
+    }
 
-        # 返回分页过的模型
-        return ['data' => Page::page($perPage,$this,$page) -> get(),'link'=>Page::links()];
+    /**
+     * @param int $perPage
+     * @param array $columns
+     * @param string $pageName
+     * @param null|int $page
+     * @return mixed
+     */
+    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        # 分页使用接口接管
+        return $this -> connection -> paginate_driver -> paginate($this,$perPage,$columns, $pageName, $page);
         # 分页修改
 //        $page = $page ?: Paginator::resolveCurrentPage($pageName);
 //

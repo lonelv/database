@@ -15,6 +15,82 @@ use Itxiao6\Database\Eloquent\Relations\Pivot;
 use Itxiao6\Database\Query\Builder as QueryBuilder;
 use Itxiao6\Database\ConnectionResolverInterface as Resolver;
 
+/**
+ * Class Model
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * 条件
+ * @method \Itxiao6\Database\Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder orWhere($column, $operator = null, $value = null)
+ * @method \Itxiao6\Database\Query\Builder whereColumn($first, $operator = null, $second = null, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder orWhereColumn($first, $operator = null, $second = null)
+ * @method \Itxiao6\Database\Query\Builder whereRaw($sql, $bindings = [], $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder orWhereRaw($sql, $bindings = [])
+ * @method \Itxiao6\Database\Query\Builder whereIn($column, $values, $boolean = 'and', $not = false)
+ * @method \Itxiao6\Database\Query\Builder orWhereIn($column, $values)
+ * @method \Itxiao6\Database\Query\Builder whereNotIn($column, $values, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder orWhereNotIn($column, $values)
+ * @method \Itxiao6\Database\Query\Builder whereNull($column, $boolean = 'and', $not = false)
+ * @method \Itxiao6\Database\Query\Builder orWhereNull($column)
+ * @method \Itxiao6\Database\Query\Builder whereNotNull($column, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder whereBetween($column, array $values, $boolean = 'and', $not = false)
+ * @method \Itxiao6\Database\Query\Builder orWhereBetween($column, array $values)
+ * @method \Itxiao6\Database\Query\Builder whereNotBetween($column, array $values, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder orWhereNotBetween($column, array $values)
+ * @method \Itxiao6\Database\Query\Builder orWhereNotNull($column)
+ * @method \Itxiao6\Database\Query\Builder whereDate($column, $operator, $value = null, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder orWhereDate($column, $operator, $value)
+ * @method \Itxiao6\Database\Query\Builder whereTime($column, $operator, $value, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder orWhereTime($column, $operator, $value)
+ * @method \Itxiao6\Database\Query\Builder whereDay($column, $operator, $value = null, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder whereMonth($column, $operator, $value = null, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder whereYear($column, $operator, $value = null, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder whereNested(\Closure $callback, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder whereExists(\Closure $callback, $boolean = 'and', $not = false)
+ * @method \Itxiao6\Database\Query\Builder orWhereExists(\Closure $callback, $not = false)
+ * @method \Itxiao6\Database\Query\Builder whereNotExists(\Closure $callback, $boolean = 'and')
+ * @method \Itxiao6\Database\Query\Builder orWhereNotExists(\Closure $callback)
+ * @method \Itxiao6\Database\Query\Builder addWhereExistsQuery(\Itxiao6\Database\Query\Builder $query, $boolean = 'and', $not = false)
+ * 排序
+ * @method \Itxiao6\Database\Query\Builder orderBy($column, $direction = 'asc')
+ * @method \Itxiao6\Database\Query\Builder orderByDesc($column)
+ * @method \Itxiao6\Database\Query\Builder orderByRaw($sql, $bindings = [])
+ * 偏移
+ * @method \Itxiao6\Database\Query\Builder skip($value)
+ * @method \Itxiao6\Database\Query\Builder offset($value)
+ * @method \Itxiao6\Database\Query\Builder take($value)
+ * @method \Itxiao6\Database\Query\Builder limit($value)
+ * 锁
+ * @method \Itxiao6\Database\Query\Builder lock($value = true)
+ * @method \Itxiao6\Database\Query\Builder lockForUpdate()
+ * @method \Itxiao6\Database\Query\Builder sharedLock()
+ * 调试
+ * @method \Itxiao6\Database\Query\Builder toSql()
+ * @method \Itxiao6\Database\Query\Builder raw($value)
+ * @method \Itxiao6\Database\Query\Builder getBindings()
+ * @method \Itxiao6\Database\Query\Builder table()
+ * @method \Itxiao6\Database\Query\Builder getRawBindings()
+ * @method \Itxiao6\Database\Query\Builder getProcessor()
+ * 查询(选择)
+ * @method \Itxiao6\Database\Query\Builder find($id, $columns = ['*'])
+ * @method \Itxiao6\Database\Query\Builder value($column)
+ * @method \Itxiao6\Database\Query\Builder get($columns = ['*'])
+ * @method \Itxiao6\Database\Query\Builder pluck($column, $key = null)
+ * @method \Itxiao6\Database\Query\Builder count($columns = '*')
+ * @method \Itxiao6\Database\Query\Builder min($column)
+ * @method \Itxiao6\Database\Query\Builder max($column)
+ * @method \Itxiao6\Database\Query\Builder sum($column)
+ * @method \Itxiao6\Database\Query\Builder avg($column)
+ * 写入|修改|删除
+ * @method \Itxiao6\Database\Query\Builder insert(array $values)
+ * @method \Itxiao6\Database\Query\Builder insertGetId(array $values, $sequence = null)
+ * @method \Itxiao6\Database\Query\Builder updateOrInsert(array $attributes, array $values = [])
+ * @method \Itxiao6\Database\Query\Builder set_cache_driver(\Itxiao6\Database\CacheInterface $object)
+ * @method \Itxiao6\Database\Query\Builder set_paginate_driver(\Itxiao6\Database\PaginateInterface $object)
+ * 驱动
+ *
+ * @package Itxiao6\Database\Eloquent
+ */
 abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializable, QueueableEntity, UrlRoutable
 {
     use Concerns\HasAttributes,

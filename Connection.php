@@ -17,7 +17,6 @@ use Itxiao6\Database\Query\Processors\Processor;
 use Itxiao6\Database\Query\Builder as QueryBuilder;
 use Itxiao6\Database\Schema\Builder as SchemaBuilder;
 use Itxiao6\Database\Query\Grammars\Grammar as QueryGrammar;
-use Service\Cache;
 
 /**
  * 连接类
@@ -118,6 +117,16 @@ class Connection implements ConnectionInterface
      * @var int
      */
     public $cache_time = 0;
+    /**
+     * 缓存驱动
+     * @var CacheInterface|null
+     */
+    public $cache_driver = null;
+    /**
+     * 分页驱动
+     * @var PaginateInterface|null
+     */
+    public $paginate_driver = null;
 
     /**
      * 所有的查询都运行在连接上。
@@ -334,8 +343,7 @@ class Connection implements ConnectionInterface
             //数据库结果集。 数组中的每个元素都将是单个元素
             //数据库表中的行，并且将是数组或对象。
             # 判断是否使用了缓存
-            if($this -> cache_time == 0){
-
+            if($this -> cache_time < 1){
                 $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
                     ->prepare($query));
 
@@ -350,27 +358,25 @@ class Connection implements ConnectionInterface
                 
                 # 返回结果
                 return $resurl;
-            }else{
+            }else if($this -> cache_driver instanceof CacheInterface){
                 # 获取缓存key
-                $key = 'databases_'.substr(md5($query.serialize($bindings)),0,5);
-
+                $key = $this -> cache_driver -> make_name(substr(md5($query.serialize($bindings)),0,5));
                 # 返回缓存的数据
-                return Cache::remember($key,function() use ($useReadPdo,$bindings,$query,$start){
-
-                    $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
+                return $this -> cache_driver -> remember($key,function() use ($useReadPdo,$bindings,$query,$start){
+                    $statement = $this -> prepared($this->getPdoForSelect($useReadPdo)
                         ->prepare($query));
 
                     # 绑定参数
-                    $this->bindValues($statement, $this->prepareBindings($bindings));
+                    $this -> bindValues($statement, $this->prepareBindings($bindings));
 
                     # 执行查询
-                    $statement->execute();
+                    $statement -> execute();
                     # 记录sql
-                    $this->logQuery(
-                        $query, $bindings, $this->getElapsedTime($start = microtime(true))
+                    $this -> logQuery(
+                        $query, $bindings, $this -> getElapsedTime($start = microtime(true))
                     );
                     # 更新缓存
-                    return $statement->fetchAll();
+                    return $statement -> fetchAll();
                 },$this -> cache_time);
             }
         });
@@ -674,7 +680,7 @@ class Connection implements ConnectionInterface
         // then log the query, bindings, and execution time so we will report them on
         // the event that the developer needs them. We'll log time in milliseconds.
         # 判断是否开启了缓存
-        if($this -> cache_time == 0){
+        if($this -> cache_time > 1){
             $this->logQuery(
                 $query, $bindings, $this->getElapsedTime($start)
             );
