@@ -85,9 +85,10 @@ use Itxiao6\Database\ConnectionResolverInterface as Resolver;
  * @method \Itxiao6\Database\Query\Builder insert(array $values)
  * @method \Itxiao6\Database\Query\Builder insertGetId(array $values, $sequence = null)
  * @method \Itxiao6\Database\Query\Builder updateOrInsert(array $attributes, array $values = [])
+ * 驱动
  * @method \Itxiao6\Database\Query\Builder set_cache_driver(\Itxiao6\Database\CacheInterface $object)
  * @method \Itxiao6\Database\Query\Builder set_paginate_driver(\Itxiao6\Database\PaginateInterface $object)
- * 驱动
+ * @method \Itxiao6\Database\Query\Builder remember($time)
  *
  * @package Itxiao6\Database\Eloquent
  */
