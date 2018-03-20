@@ -677,7 +677,7 @@ class Builder
      */
     public function remember($time){
         # 设置缓存时间
-        $this -> query -> connection -> cache_time = $time;
+        $this -> query -> remember(...func_num_args());
         # 返回自己
         return $this;
     }
@@ -694,7 +694,8 @@ class Builder
     public function paginate($perPage = null,$template = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         # 新分页
-        return $this -> connection -> paginate_driver -> paginate($this -> query,$perPage,$columns, $pageName, $page);
+        return $this -> query ->paginate(...func_num_args());
+//        return $this -> connection -> paginate_driver -> paginate($this -> query,$perPage,$columns, $pageName, $page);
 
         # 原
 //        $page = $page ?: Paginator::resolveCurrentPage($pageName);
