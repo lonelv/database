@@ -343,7 +343,7 @@ class Connection implements ConnectionInterface
             //数据库结果集。 数组中的每个元素都将是单个元素
             //数据库表中的行，并且将是数组或对象。
             # 判断是否使用了缓存
-            if($this -> cache_time < 1){
+            if($this -> cache_time > 1){
                 $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
                     ->prepare($query));
 
@@ -680,7 +680,7 @@ class Connection implements ConnectionInterface
         // then log the query, bindings, and execution time so we will report them on
         // the event that the developer needs them. We'll log time in milliseconds.
         # 判断是否开启了缓存
-        if($this -> cache_time > 1){
+        if($this -> cache_time < 1){
             $this->logQuery(
                 $query, $bindings, $this->getElapsedTime($start)
             );
