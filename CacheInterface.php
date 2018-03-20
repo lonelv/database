@@ -19,9 +19,10 @@ interface CacheInterface
      * 设置值
      * @param $name
      * @param $value
-     * @return true
+     * @param $time
+     * @return mixed
      */
-    public function set($name,$value);
+    public function set($name,$value,$time);
 
     /**
      * 获取值
