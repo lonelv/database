@@ -88,8 +88,10 @@ use Itxiao6\Database\ConnectionResolverInterface as Resolver;
  * 驱动
  * @method \Itxiao6\Database\Query\Builder set_cache_driver(\Itxiao6\Database\CacheInterface $object)
  * @method \Itxiao6\Database\Query\Builder set_paginate_driver(\Itxiao6\Database\PaginateInterface $object)
+ * 数据缓存
  * @method \Itxiao6\Database\Query\Builder remember($time)
- *
+ * 事务
+ * @method \Itxiao6\Database\Query\Builder transaction(\Closure $callback, $attempts = 1)
  * @package Itxiao6\Database\Eloquent
  */
 abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializable, QueueableEntity, UrlRoutable

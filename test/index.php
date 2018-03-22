@@ -4,6 +4,7 @@ namespace Itxiao6\Database;
 
 include_once(__DIR__.'/../vendor/autoload.php');
 use Itxiao6\Database\Capsule\Manager as DB;
+use Itxiao6\Database\Capsule\Manager;
 
 /**
  * 缓存驱动
@@ -105,13 +106,31 @@ class User extends \Itxiao6\Database\Eloquent\Model {
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
         ]);
+        // 设置全局静态可访问
+        $capsule->setAsGlobal();
         $capsule ->bootEloquent();
         # 设置缓存类
         $this -> set_cache_driver(new Cache());
     }
     protected $table = 'admin_permissions';
 }
-$result = User::remember(15) -> get();
+$capsule = new \Itxiao6\Database\Capsule\Manager;
+// 添加连接到容器内
+$capsule->addConnection([
+    'driver'    => 'mysql',
+    'host'      => '47.104.85.153',
+    'database'  => 'shop',
+    'username'  => 'shop',
+    'password'  => '4rBrfCDdkR',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+]);
 
-
-var_dump($result);
+$capsule -> setAsGlobal();
+$capsule -> bootEloquent();
+# 回调类型的事务
+Manager::connection('default') -> transaction(function(){
+    var_dump('测试');
+},5);
+//$result = User::remember(15) -> get();

@@ -288,4 +288,17 @@ class Builder
     {
         $this->resolver = $resolver;
     }
+
+    /**
+     * 启动事务
+     * @param Closure $callback
+     * @param int $attempts
+     * @return mixed
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function transaction(Closure $callback, $attempts = 1)
+    {
+        return $this -> connection -> transaction(...func_get_args());
+    }
 }
