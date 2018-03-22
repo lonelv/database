@@ -12,4 +12,5 @@
 2. [增删改查](https://github.com/itxiao6/database/wiki/2.%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5)
 3. [模型](https://github.com/itxiao6/database/wiki/3.%E6%A8%A1%E5%9E%8B)
 4. [缓存类](https://github.com/itxiao6/database/wiki/4.%E7%BC%93%E5%AD%98%E7%B1%BB)
-4. [数据缓存](https://github.com/itxiao6/database/wiki/5.%E6%95%B0%E6%8D%AE%E7%BC%93%E5%AD%98)
+5. [数据缓存](https://github.com/itxiao6/database/wiki/5.%E6%95%B0%E6%8D%AE%E7%BC%93%E5%AD%98)
+6. [事务](https://github.com/itxiao6/database/wiki/6.%E4%BA%8B%E5%8A%A1)
