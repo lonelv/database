@@ -130,7 +130,10 @@ $capsule->addConnection([
 $capsule -> setAsGlobal();
 $capsule -> bootEloquent();
 # 回调类型的事务
-Manager::connection('default') -> transaction(function(){
+//Manager::connection('default') -> transaction(function(){
+//    var_dump('测试');
+//},5);
+User::transaction(function(){
     var_dump('测试');
-},5);
+});
 //$result = User::remember(15) -> get();

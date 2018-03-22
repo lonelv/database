@@ -243,6 +243,17 @@ class Builder
     }
 
     /**
+     * 执行事务
+     * @param Closure $callback
+     * @param int $attempts
+     * @return mixed
+     */
+    public function transaction(\Closure $callback, $attempts = 1)
+    {
+        return $this -> connection -> transaction($callback,$attempts);
+    }
+
+    /**
      * Add a subselect expression to the query.
      *
      * @param  \Closure|\Itxiao6\Database\Query\Builder|string $query
