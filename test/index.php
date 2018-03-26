@@ -5,6 +5,7 @@ namespace Itxiao6\Database;
 include_once(__DIR__.'/../vendor/autoload.php');
 use Itxiao6\Database\Capsule\Manager as DB;
 use Itxiao6\Database\Capsule\Manager;
+use Itxiao6\Database\Query\Builder;
 
 /**
  * 缓存驱动
@@ -130,7 +131,10 @@ $capsule->addConnection([
 $capsule -> setAsGlobal();
 $capsule -> bootEloquent();
 # 回调类型的事务
-Manager::connection('default') -> transaction(function(){
+//Manager::connection('default') -> transaction(function(Builder $builder){
+//    var_dump('测试');
+//},5);
+User::transaction(function(Builder $builder){
     var_dump('测试');
-},5);
+});
 //$result = User::remember(15) -> get();
