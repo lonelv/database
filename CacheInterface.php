@@ -32,6 +32,18 @@ interface CacheInterface
     public function get($name);
 
     /**
+     * 判断缓存连接 是否通畅
+     * @return bool
+     */
+    public function ping();
+
+    /**
+     * 重新连接
+     * @return bool
+     */
+    public function reconnect();
+
+    /**
      * 记住数据
      * @param string $name
      * @param \Closure|null $callback
