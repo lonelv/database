@@ -15,8 +15,7 @@
         "illuminate/container": "5.4.*",
         "illuminate/contracts": "5.4.*",
         "illuminate/support": "5.4.*",
-        "nesbot/carbon": "~1.20",
-        "symfony/var-dumper": "^4.1@dev"
+        "nesbot/carbon": "~1.20"
     },
     "autoload": {
         "psr-4": {
