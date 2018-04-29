@@ -23,15 +23,19 @@ class Connector
         PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL,
         PDO::ATTR_STRINGIFY_FETCHES => false,
         PDO::ATTR_EMULATE_PREPARES => false,
+        /**
+         * 是否使用了 SWOOL 的 连接池
+         */
+        'IS_POND' => false,
     ];
 
     /**
      * Create a new PDO connection.
-     *
-     * @param  string  $dsn
-     * @param  array   $config
-     * @param  array   $options
-     * @return \PDO
+     * @param $dsn
+     * @param array $config
+     * @param array $options
+     * @return PDO
+     * @throws Exception
      */
     public function createConnection($dsn, array $config, array $options)
     {
@@ -52,19 +56,29 @@ class Connector
 
     /**
      * Create a new PDO connection instance.
-     *
-     * @param  string  $dsn
-     * @param  string  $username
-     * @param  string  $password
-     * @param  array  $options
-     * @return \PDO
+     * @param $dsn
+     * @param $username
+     * @param $password
+     * @param $options
+     * @return PDOConnection|PDO|\pdoProxy
+     * @throws Exception
      */
     protected function createPdoConnection($dsn, $username, $password, $options)
     {
         if (class_exists(PDOConnection::class) && ! $this->isPersistentConnection($options)) {
             return new PDOConnection($dsn, $username, $password, $options);
         }
-
+        /**
+         * 判断是否使用了SWOOOLE 的 连接池
+         */
+        if(isset($options['IS_POND']) && $options['IS_POND'] === true){
+            if(!class_exists(\pdoProxy::class)){
+                throw new Exception('请先安装 SWOOLE 的 php-cp 连接池');
+            }
+            unset($options['IS_POND']);
+            return new \pdoProxy($dsn, $username, $password, $options);
+        }
+        unset($options['IS_POND']);
         return new PDO($dsn, $username, $password, $options);
     }
 

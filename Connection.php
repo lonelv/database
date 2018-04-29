@@ -228,7 +228,7 @@ class Connection implements ConnectionInterface
     }
 
     /**
-     * 获取默认的模式语法实例。
+     *
      *
      * @return \Itxiao6\Database\Schema\Grammars\Grammar
      */
@@ -508,10 +508,10 @@ class Connection implements ConnectionInterface
 
     /**
      * 运行SQL语句并获取受影响的行数。
-     *
-     * @param  string  $query
-     * @param  array   $bindings
-     * @return int
+     * @param string $query
+     * @param array $bindings
+     * @return int|mixed
+     * @throws Exception
      */
     public function affectingStatement($query, $bindings = [])
     {
@@ -535,9 +535,9 @@ class Connection implements ConnectionInterface
 
     /**
      * 对PDO连接运行原始的，未准备的查询。
-     *
-     * @param  string  $query
-     * @return bool
+     * @param string $query
+     * @return bool|mixed
+     * @throws Exception
      */
     public function unprepared($query)
     {
@@ -651,13 +651,11 @@ class Connection implements ConnectionInterface
 
     /**
      * 运行SQL语句并记录其执行上下文。
-     *
-     * @param  string    $query
-     * @param  array     $bindings
-     * @param  \Closure  $callback
+     * @param $query
+     * @param $bindings
+     * @param Closure $callback
      * @return mixed
-     *
-     * @throws \Itxiao6\Database\QueryException
+     * @throws Exception
      */
     protected function run($query, $bindings, Closure $callback)
     {
