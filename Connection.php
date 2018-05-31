@@ -343,22 +343,7 @@ class Connection implements ConnectionInterface
             //数据库结果集。 数组中的每个元素都将是单个元素
             //数据库表中的行，并且将是数组或对象。
             # 判断是否使用了缓存
-            if($this -> cache_time > 1){
-                $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
-                    ->prepare($query));
-
-                # 绑定参数
-                $this->bindValues($statement, $this->prepareBindings($bindings));
-
-                # 执行查询
-                $statement->execute();
-
-                # 解析结果集
-                $resurl = $statement->fetchAll();
-                
-                # 返回结果
-                return $resurl;
-            }else if($this -> cache_driver instanceof CacheInterface){
+            if($this -> cache_time > 0 && $this -> cache_driver instanceof CacheInterface){
                 # 获取缓存key
                 $key = $this -> cache_driver -> make_name(substr(md5($query.serialize($bindings)),0,5));
                 # 返回缓存的数据
@@ -378,6 +363,21 @@ class Connection implements ConnectionInterface
                     # 更新缓存
                     return $statement -> fetchAll();
                 },$this -> cache_time);
+            }else{
+                $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
+                    ->prepare($query));
+
+                # 绑定参数
+                $this->bindValues($statement, $this->prepareBindings($bindings));
+
+                # 执行查询
+                $statement->execute();
+
+                # 解析结果集
+                $resurl = $statement->fetchAll();
+
+                # 返回结果
+                return $resurl;
             }
         });
     }
