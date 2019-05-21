@@ -3,10 +3,10 @@
 ### 使用说明
 
 
-> `composer require "itxiao6/database"` 使用Composer 下载安装 Itxiao6/database
+> `composer require "lonelv/database"` 使用Composer 下载安装 Itxiao6/database
 
 
-#### Itxiao6\Databse 使用文档
+#### lonelv\Databse 使用文档
 
 1. [数据库链接](https://github.com/itxiao6/database/wiki/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5)
 2. [增删改查](https://github.com/itxiao6/database/wiki/2.%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5)
